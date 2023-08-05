@@ -1,5 +1,4 @@
 var arrNhanVien = [];
-// mảng quản lý tất cả thông tin nhân viên trên giao diện index.html
 document.querySelector("#btnThem").onclick = function () {
   document.querySelector("#password").value = "";
   document.querySelector("#tknv").value = "";
@@ -32,7 +31,7 @@ function getValue(name) {
   name.luongCB = document.querySelector("#luongCB").value;
 
   var slChucVu = document.querySelector("#chucvu");
-  name.chucVu = slChucVu[slChucVu.selectedIndex].innerHTML;
+  name.chucvu = slChucVu[slChucVu.selectedIndex].innerHTML;
   name.heSoChucVu = slChucVu.value;
 
   name.gioLam = document.querySelector("#gioLam").value;
@@ -40,24 +39,6 @@ function getValue(name) {
   name.loaiNhanVien = name.xepLoaiNhanVien();
   return name;
 }
-
-document.querySelector("#btnThemNV").onclick = function () {
-  var nhanVienNew = new NhanVien();
-  getValue(nhanVienNew);
-  nhanVienNew.tknv = document.querySelector("#tknv").value;
-  nhanVienNew.name = document.querySelector("#name").value;
-  nhanVienNew.email = document.querySelector("#email").value;
-  nhanVienNew.password = document.querySelector("#password").value;
-  nhanVienNew.datepicker = document.querySelector("#datepicker").value;
-  nhanVienNew.luongCB = document.querySelector("#luongCB").value;
-  nhanVienNew.chucvu = document.querySelector("#chucvu").value;
-  nhanVienNew.gioLam = document.querySelector("#gioLam").value;
-  // thêm nhân viên vào mảng
-  arrNhanVien.push(nhanVienNew);
-  renderTableNhanVien(arrNhanVien);
-  //Lưu mảng nhân viên vào storage
-  saveStorageArrNhanVien();
-};
 
 /**
  * Hàm nhận vào tham số là arrNV [{...},{...},{...}]
@@ -74,7 +55,7 @@ function renderTableNhanVien(arrNV) {
     <td>${nhanVien.email}</td>
     <td>${nhanVien.datepicker}</td>
     <td>${nhanVien.chucvu}</td>
-    <td>${nhanVien.tongLuong}</td>
+    <td>${nhanVien.tongLuong.toLocaleString()}</td>
     <td>${nhanVien.loaiNhanVien}</td>
     <td>
     <button class="btn btn-danger" onclick="xoaNhanVien('${index}')">Xóa</button>
@@ -85,6 +66,17 @@ function renderTableNhanVien(arrNV) {
   }
   document.querySelector("#tableDanhSach").innerHTML = outputHTML;
 }
+
+document.querySelector("#btnThemNV").onclick = function () {
+  var nhanVienNew = new NhanVien();
+  getValue(nhanVienNew);
+  // thêm nhân viên vào mảng
+  arrNhanVien.push(nhanVienNew);
+  renderTableNhanVien(arrNhanVien);
+  //Lưu mảng nhân viên vào storage
+  saveStorageArrNhanVien();
+};
+
 function xoaNhanVien(indexDel) {
   arrNhanVien.splice(indexDel, 1);
   renderTableNhanVien(arrNhanVien);
@@ -119,14 +111,15 @@ function getStorageJSON(name) {
 
 document.querySelector("#btnCapNhat").onclick = function () {
   var nvUpdate = new NhanVien();
-  nvUpdate.tknv = document.querySelector("#tknv").value;
-  nvUpdate.name = document.querySelector("#name").value;
-  nvUpdate.email = document.querySelector("#email").value;
-  nvUpdate.password = document.querySelector("#password").value;
-  nvUpdate.datepicker = document.querySelector("#datepicker").value;
-  nvUpdate.luongCB = document.querySelector("#luongCB").value;
-  nvUpdate.chucvu = document.querySelector("#chucvu").value;
-  nvUpdate.gioLam = document.querySelector("#gioLam").value;
+  getValue(nvUpdate);
+  // nvUpdate.tknv = document.querySelector("#tknv").value;
+  // nvUpdate.name = document.querySelector("#name").value;
+  // nvUpdate.email = document.querySelector("#email").value;
+  // nvUpdate.password = document.querySelector("#password").value;
+  // nvUpdate.datepicker = document.querySelector("#datepicker").value;
+  // nvUpdate.luongCB = document.querySelector("#luongCB").value;
+  // nvUpdate.chucvu = document.querySelector("#chucvu").value;
+  // nvUpdate.gioLam = document.querySelector("#gioLam").value;
   var indexUpdate = -1;
   for (var index = 0; index < arrNhanVien.length; index++) {
     if (arrNhanVien[index].tknv === nvUpdate.tknv) {
@@ -153,11 +146,19 @@ window.onload = function () {
   }
 };
 // tìm kiếm
-// document.querySelector("#searchName").oninput = function () {
-//   var tuKhoa = document.querySelector("#searchName").value;
-//   if (tuKhoa === "") {
-//     renderTableNhanVien(arrNhanVien);
-//     return;
-//   }
-//   var arrResult = [];
-// };
+document.querySelector("#searchName").onkeyup = function () {
+  var tuKhoa = document.querySelector("#searchName").value;
+  var result = [];
+  if (tuKhoa == "") {
+    renderTableNhanVien(arrNhanVien);
+    return;
+  }
+  for (var index = 0; index < arrNhanVien.length; index++) {
+    tuKhoa = stringToSlug(tuKhoa);
+    xlNhanVien = stringToSlug(arrNhanVien[index].loaiNhanVien);
+    if (xlNhanVien.search(tuKhoa) !== -1) {
+      result.push(arrNhanVien[index]);
+    }
+  }
+  renderTableNhanVien(result);
+};

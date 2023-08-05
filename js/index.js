@@ -53,10 +53,10 @@ function renderTableNhanVien(arrNV) {
     <td>${nhanVien.tknv}</td>
     <td>${nhanVien.name}</td>
     <td>${nhanVien.email}</td>
-    <td>${nhanVien.password}</td>
     <td>${nhanVien.datepicker}</td>
-    <td>${nhanVien.luongCB}</td>
     <td>${nhanVien.chucvu}</td>
+    <td>${nhanVien.luongCB}</td>
+    <td></td>
     <td>
     <button class="btn btn-danger" onclick="xoaNhanVien('${index}')">Xóa</button>
     <button class="btn btn-primary mx-2"  data-toggle="modal" data-target="#myModal" onclick="suaNhanVien('${index}')">Sửa</button>
@@ -134,12 +134,11 @@ window.onload = function () {
   }
 };
 // tìm kiếm
-document.querySelector("#searchName").oninput=function(){
-  var tuKhoa= document.querySelector("#searchName").value
-  if(tuKhoa===""){
-    renderTableNhanVien(arrNhanVien)
+document.querySelector("#searchName").oninput = function () {
+  var tuKhoa = document.querySelector("#searchName").value;
+  if (tuKhoa === "") {
+    renderTableNhanVien(arrNhanVien);
     return;
   }
-  var arrResult = []
-  
-}
+  var arrResult = [];
+};

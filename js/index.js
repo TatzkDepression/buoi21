@@ -1,7 +1,49 @@
 var arrNhanVien = [];
 // mảng quản lý tất cả thông tin nhân viên trên giao diện index.html
+document.querySelector("#btnThem").onclick = function () {
+  document.querySelector("#password").value = "";
+  document.querySelector("#tknv").value = "";
+  document.querySelector("#name").value = "";
+  document.querySelector("#email").value = "";
+  document.querySelector("#datepicker").value = "";
+  document.querySelector("#luongCB").value = "";
+  document.querySelector("#gioLam").value = "";
+  document.querySelector("#chucvu").value = "";
+  document.querySelector("#tbMatKhau").style.display = "none";
+  document.querySelector("#tbTKNV").style.display = "none";
+  document.querySelector("#tbTen").style.display = "none";
+  document.querySelector("#tbEmail").style.display = "none";
+  document.querySelector("#tbNgay").style.display = "none";
+  document.querySelector("#tbLuongCB").style.display = "none";
+  document.querySelector("#tbChucVu").style.display = "none";
+  document.querySelector("#tbGiolam").style.display = "none";
+};
+/**
+ * nhận vào 1 object tên name đã được tạo rồi lấy các value cần thiết
+ * @param {*} name
+ * @returns
+ */
+function getValue(name) {
+  name.tknv = document.querySelector("#tknv").value;
+  name.name = document.querySelector("#name").value;
+  name.email = document.querySelector("#email").value;
+  name.password = document.querySelector("#password").value;
+  name.datepicker = document.querySelector("#datepicker").value;
+  name.luongCB = document.querySelector("#luongCB").value;
+
+  var slChucVu = document.querySelector("#chucvu");
+  name.chucVu = slChucVu[slChucVu.selectedIndex].innerHTML;
+  name.heSoChucVu = slChucVu.value;
+
+  name.gioLam = document.querySelector("#gioLam").value;
+  name.tongLuong = name.tinhLuong();
+  name.loaiNhanVien = name.xepLoaiNhanVien();
+  return name;
+}
+
 document.querySelector("#btnThemNV").onclick = function () {
   var nhanVienNew = new NhanVien();
+  getValue(nhanVienNew);
   nhanVienNew.tknv = document.querySelector("#tknv").value;
   nhanVienNew.name = document.querySelector("#name").value;
   nhanVienNew.email = document.querySelector("#email").value;
@@ -10,36 +52,13 @@ document.querySelector("#btnThemNV").onclick = function () {
   nhanVienNew.luongCB = document.querySelector("#luongCB").value;
   nhanVienNew.chucvu = document.querySelector("#chucvu").value;
   nhanVienNew.gioLam = document.querySelector("#gioLam").value;
-
-  //Kiểm tra rỗng
-  //trim: phương thức loại bỏ khoảng trống đầu và cuối của chuỗi
-  // var valid = validation.kiemTraRong(nhanVienNew.tknv, "tknv");
-  //     validation.kiemTraRong(nhanVienNew.name, "name");
-  //   validation.kiemTraRong(nhanVienNew.chucvu, "chucvu");
-
-  //   //Kiểm tra định dạng
-  //   valid =
-  //     valid &
-  //     validation.kiemTraTatCaKyTu(nhanVienNew.tenSinhVien, "tenSinhVien") &
-  //     validation.kiemTraEmail(nhanVienNew.email, "email") &
-  //     validation.kiemTraNumber(nhanVienNew.password, "password");
-
-  //   //Kiểm độ dài và giá trị
-  //   valid =
-  //     vali & validation.kiemTraGiaTri(nhanVienNew.luongCB, "luongCB", 0, 100);
-  //   validation.kiemTraGiaTri(nhanVienNew.gioLam, "gioLam", 0, 10);
-
-  // if (!valid) {
-  //   return;
-  // }
-
   // thêm nhân viên vào mảng
   arrNhanVien.push(nhanVienNew);
   renderTableNhanVien(arrNhanVien);
-
   //Lưu mảng nhân viên vào storage
   saveStorageArrNhanVien();
 };
+
 /**
  * Hàm nhận vào tham số là arrNV [{...},{...},{...}]
  * @param {*} arrNV là mảng chứa các object nhanVien : arrNV = [{NhanVien:1,...},{NhanVien:2,...},...]
@@ -55,8 +74,8 @@ function renderTableNhanVien(arrNV) {
     <td>${nhanVien.email}</td>
     <td>${nhanVien.datepicker}</td>
     <td>${nhanVien.chucvu}</td>
-    <td>${nhanVien.luongCB}</td>
-    <td></td>
+    <td>${nhanVien.tongLuong}</td>
+    <td>${nhanVien.loaiNhanVien}</td>
     <td>
     <button class="btn btn-danger" onclick="xoaNhanVien('${index}')">Xóa</button>
     <button class="btn btn-primary mx-2"  data-toggle="modal" data-target="#myModal" onclick="suaNhanVien('${index}')">Sửa</button>
@@ -134,11 +153,11 @@ window.onload = function () {
   }
 };
 // tìm kiếm
-document.querySelector("#searchName").oninput = function () {
-  var tuKhoa = document.querySelector("#searchName").value;
-  if (tuKhoa === "") {
-    renderTableNhanVien(arrNhanVien);
-    return;
-  }
-  var arrResult = [];
-};
+// document.querySelector("#searchName").oninput = function () {
+//   var tuKhoa = document.querySelector("#searchName").value;
+//   if (tuKhoa === "") {
+//     renderTableNhanVien(arrNhanVien);
+//     return;
+//   }
+//   var arrResult = [];
+// };

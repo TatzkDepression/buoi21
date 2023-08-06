@@ -90,7 +90,7 @@ function suaNhanVien(indexEdit) {
   document.querySelector("#password").value = nvEdit.password;
   document.querySelector("#datepicker").value = nvEdit.datepicker;
   document.querySelector("#luongCB").value = nvEdit.luongCB;
-  document.querySelector("#chucvu").value = nvEdit.chucvu;
+  document.querySelector("#chucvu").value = nvEdit.heSoChucVu;
   document.querySelector("#gioLam").value = nvEdit.gioLam;
 }
 //Phương thức lưu vào application storage
@@ -126,10 +126,15 @@ document.querySelector("#btnCapNhat").onclick = function () {
     arrNhanVien[indexUpdate].datepicker = nvUpdate.datepicker;
     arrNhanVien[indexUpdate].luongCB = nvUpdate.luongCB;
     arrNhanVien[indexUpdate].chucvu = nvUpdate.chucvu;
+    arrNhanVien[indexUpdate].heSoChucVu = nvUpdate.heSoChucVu;
     arrNhanVien[indexUpdate].gioLam = nvUpdate.gioLam;
-    renderTableNhanVien(arrNhanVien);
-    saveStorageArrNhanVien();
+    arrNhanVien[indexUpdate].tongLuong = nvUpdate.tongLuong;
+    arrNhanVien[indexUpdate].loaiNhanVien = nvUpdate.loaiNhanVien;
+  } else {
+    return;
   }
+  renderTableNhanVien(arrNhanVien);
+  saveStorageArrNhanVien();
 };
 window.onload = function () {
   if (getStorageJSON("arrNhanVien")) {

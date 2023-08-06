@@ -112,14 +112,6 @@ function getStorageJSON(name) {
 document.querySelector("#btnCapNhat").onclick = function () {
   var nvUpdate = new NhanVien();
   getValue(nvUpdate);
-  // nvUpdate.tknv = document.querySelector("#tknv").value;
-  // nvUpdate.name = document.querySelector("#name").value;
-  // nvUpdate.email = document.querySelector("#email").value;
-  // nvUpdate.password = document.querySelector("#password").value;
-  // nvUpdate.datepicker = document.querySelector("#datepicker").value;
-  // nvUpdate.luongCB = document.querySelector("#luongCB").value;
-  // nvUpdate.chucvu = document.querySelector("#chucvu").value;
-  // nvUpdate.gioLam = document.querySelector("#gioLam").value;
   var indexUpdate = -1;
   for (var index = 0; index < arrNhanVien.length; index++) {
     if (arrNhanVien[index].tknv === nvUpdate.tknv) {

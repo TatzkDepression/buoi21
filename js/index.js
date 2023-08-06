@@ -1,8 +1,5 @@
 var arrNhanVien = [];
 
-function reset() {
-  document.querySelector("#nhanVienFormReset").reset();
-}
 /**
  * nhận vào 1 object tên name đã được tạo rồi lấy các value cần thiết
  * @param {*} name
@@ -56,7 +53,38 @@ function renderTableNhanVien(arrNV) {
 document.querySelector("#btnThemNV").onclick = function () {
   var nhanVienNew = new NhanVien();
   getValue(nhanVienNew);
-  
+  // kiểm tra chức vụ và tknv
+  var valid =
+    validation.kiemTraRong(nhanVienNew.heSoChucVu, "tbChucVu", "Chức vụ") &
+    validation.kiemTraSo(nhanVienNew.tknv, "tbTKNV", "Tài Khoản");
+  // kiểm tra password
+  valid = validation.kiemTraPass(nhanVienNew.password, "tbMatKhau");
+  // kiểm tra mail
+  valid = validation.kiemTraEmail(nhanVienNew.email, "tbEmail", "Email");
+  // kiểm tra tên
+  valid = validation.kiemTraTatCaKyTu(nhanVienNew.name, "tbTen", "Họ và tên ");
+  // kiểm tra lương
+  valid =
+    validation.kiemTraNumber(
+      nhanVienNew.luongCB,
+      "tbLuongCB",
+      "Lương cơ bản",
+      1000000,
+      20000000
+    ) &
+    validation.kiemTraNumber(
+      nhanVienNew.gioLam,
+      "tbGiolam",
+      "Số giờ làm",
+      80,
+      200
+    );
+  // kiểm tra ngày làm
+  valid = validation.kiemTraNgay(nhanVienNew.datepicker, "tbNgay", "Ngày làm");
+  if (!valid) {
+    return;
+  }
+
   // thêm nhân viên vào mảng
   arrNhanVien.push(nhanVienNew);
   renderTableNhanVien(arrNhanVien);
@@ -123,6 +151,9 @@ document.querySelector("#btnCapNhat").onclick = function () {
   renderTableNhanVien(arrNhanVien);
   saveStorageArrNhanVien();
 };
+function reset() {
+  document.querySelector("#nhanVienFormReset").reset();
+}
 window.onload = function () {
   if (getStorageJSON("arrNhanVien")) {
     arrNhanVien = getStorageJSON("arrNhanVien");

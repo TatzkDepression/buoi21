@@ -1,22 +1,8 @@
 var arrNhanVien = [];
-document.querySelector("#btnThem").onclick = function () {
-  document.querySelector("#password").value = "";
-  document.querySelector("#tknv").value = "";
-  document.querySelector("#name").value = "";
-  document.querySelector("#email").value = "";
-  document.querySelector("#datepicker").value = "";
-  document.querySelector("#luongCB").value = "";
-  document.querySelector("#gioLam").value = "";
-  document.querySelector("#chucvu").value = "";
-  document.querySelector("#tbMatKhau").style.display = "none";
-  document.querySelector("#tbTKNV").style.display = "none";
-  document.querySelector("#tbTen").style.display = "none";
-  document.querySelector("#tbEmail").style.display = "none";
-  document.querySelector("#tbNgay").style.display = "none";
-  document.querySelector("#tbLuongCB").style.display = "none";
-  document.querySelector("#tbChucVu").style.display = "none";
-  document.querySelector("#tbGiolam").style.display = "none";
-};
+
+function reset() {
+  document.querySelector("#nhanVienFormReset").reset();
+}
 /**
  * nhận vào 1 object tên name đã được tạo rồi lấy các value cần thiết
  * @param {*} name
@@ -70,6 +56,7 @@ function renderTableNhanVien(arrNV) {
 document.querySelector("#btnThemNV").onclick = function () {
   var nhanVienNew = new NhanVien();
   getValue(nhanVienNew);
+  
   // thêm nhân viên vào mảng
   arrNhanVien.push(nhanVienNew);
   renderTableNhanVien(arrNhanVien);
